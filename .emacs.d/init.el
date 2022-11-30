@@ -12,7 +12,7 @@
 
 (setq visible-bell t)
 
-(set-face-attribute 'default nil :font "Ubuntu Mono" :height 120)
+(set-face-attribute 'default nil :font "JetBrains Mono" :height 100)
 
 (column-number-mode)
 (global-display-line-numbers-mode t)
