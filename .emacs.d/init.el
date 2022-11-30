@@ -72,7 +72,7 @@
    '("944d52450c57b7cbba08f9b3d08095eb7a5541b0ecfb3a0a9ecd4a18f3c28948" "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" default))
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(tree-sitter yasnippet magit evil-magit rg tree-sitter-langs rustic company corfu eglot telephone-line dashboard no-littering evil-collection evil ivy helm-projectile projectile doom-themes which-key use-package)))
+   '(treemacs-evil treemacs-projectile tree-sitter yasnippet magit evil-magit rg tree-sitter-langs rustic company corfu eglot telephone-line dashboard no-littering evil-collection evil ivy helm-projectile projectile doom-themes which-key use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -142,8 +142,10 @@
   :config
   (telephone-line-mode 1))
 
+
 ;; lsp tings
-(use-package eglot)
+(use-package eglot
+  :hook (c++-mode . eglot-ensure))
 
 (use-package company
   :ensure t
@@ -160,7 +162,8 @@
 (use-package tree-sitter
   :config
   (global-tree-sitter-mode)
-  (add-hook 'rustic-mode-hook #'tree-sitter-hl-mode))
+  (add-hook 'rustic-mode-hook #'tree-sitter-hl-mode)
+  (add-hook 'c++-mode-hook 'tree-sitter-hl-mode))
   
 (use-package tree-sitter-langs)
 (use-package rg)
@@ -173,4 +176,24 @@
   :config
   (yas-global-mode 1))
 
+(use-package treemacs
+  :ensure t
+  :defer t
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t d"   . treemacs-select-directory)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-evil
+  :after (treemacs evil)
+  :ensure t)
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
 
