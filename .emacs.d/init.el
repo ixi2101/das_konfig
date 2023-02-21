@@ -12,7 +12,7 @@
 
 (setq visible-bell t)
 
-(set-face-attribute 'default nil :font "JetBrains Mono" :height 100)
+;;(set-face-attribute 'default nil :font "JetBrains Mono" :height 100)
 
 (column-number-mode)
 (global-display-line-numbers-mode t)
@@ -36,8 +36,8 @@
 (setq use-package-always-ensure t)
 
 (show-paren-mode 1)
-(ido-mode 1)
-(ido-everywhere 1)
+;;(ido-mode 1)
+;;(ido-everywhere 1)
 
 (use-package ido-completing-read+
   :config
@@ -59,7 +59,7 @@
 
 (use-package orderless
 	     :init
-	     (setq completion-styles '(orderless basic)
+	     (setq completion-styles '(flex basic)
 		completion-category-defaults nil
 		completion-category-overrides '((file (styles partial-completion)))))
 
@@ -72,7 +72,7 @@
    '("dc8285f7f4d86c0aebf1ea4b448842a6868553eded6f71d1de52f3dcbc960039" "ff24d14f5f7d355f47d53fd016565ed128bf3af30eb7ce8cae307ee4fe7f3fd0" "944d52450c57b7cbba08f9b3d08095eb7a5541b0ecfb3a0a9ecd4a18f3c28948" "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" default))
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(json-mode vterm tide rjsx-mode prettier-js fancy-compilation fancy-compilation-mode undo-tree hl-indent-scope diff-hl doom-modeline smart-mode-line solaire mood-line haskell-mode tuareg treemacs-evil treemacs-projectile tree-sitter yasnippet magit evil-magit rg tree-sitter-langs rustic company corfu eglot telephone-line dashboard no-littering evil-collection evil ivy helm-projectile projectile doom-themes which-key use-package)))
+   '(vertico helm-lsp helm lsp-ido dap-mode lsp-treemacs lsp-ui lsp-mode treemacs modus-themes json-mode vterm tide rjsx-mode prettier-js fancy-compilation fancy-compilation-mode undo-tree hl-indent-scope diff-hl doom-modeline smart-mode-line solaire mood-line haskell-mode tuareg treemacs-evil treemacs-projectile tree-sitter yasnippet magit evil-magit rg tree-sitter-langs rustic company corfu eglot telephone-line dashboard no-littering evil-collection evil ivy helm-projectile projectile doom-themes which-key use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -145,6 +145,13 @@
   :config
   (dashboard-setup-startup-hook))
 
+(use-package helm
+  :ensure t
+ :config (helm-mode 1))
+(global-set-key (kbd "M-x") 'helm-M-x)
+;;(use-package vertico
+;;  :init
+  ;;(vertico-mode))
 
 ;; Telephone line
 ;;(use-package telephone-line
@@ -161,18 +168,50 @@
   ;;(setq doom-modeline-time t))
 
 ;; lsp tings
-(use-package eglot
-  :hook (c++-mode . eglot-ensure))
+;(use-package eglot
+ ; :hook (c++-mode . eglot-ensure))
+
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (XXX-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+(setq lsp-lens-enable nil)
+
+;; optionally
+(use-package lsp-ui :commands lsp-ui-mode)
+;(use-package lsp-ido)
+;; if you are helm user
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+;; if you are ivy user
+;(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+;; optionally if you want to use debugger
+(use-package dap-mode)
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
+;; optional if you want which-key integration
+(use-package which-key
+    :config
+    (which-key-mode))
 
 (use-package company
   :ensure t
   :config
-  (add-hook 'after-init-hook 'global-company-mode))
+  (add-hook 'after-init-hook 'global-company-mode)
+  (setq company-minimum-prefix-length 1
+	  company-idle-delay 0.0))
 
 (use-package rustic
   :config
-  (setq rustic-lsp-client 'eglot))
-
+					;(setq rustic-lsp-client 'eglot))
+)
 
 
 ;; Treesitter
@@ -261,8 +300,9 @@
   :after (rjsx-mode)
   :hook (rjsx-mode . prettier-js-mode))
 
-(use-package vterm
-  :ensure t)
+;(use-package vterm
+;  :ensure t)
 
 (use-package json-mode
   :ensure t)
+
