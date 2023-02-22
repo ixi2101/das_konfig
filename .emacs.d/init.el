@@ -21,15 +21,15 @@
 (require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			("org" . "https://orgmode.org/elpa/")
-			("elpa" . "https://elpa.gnu.org/packages/")))
+                        ("org" . "https://orgmode.org/elpa/")
+                        ("elpa" . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
 
 (unless (package-installed-p 'use-package)
-	(package-install 'use-package))
+        (package-install 'use-package))
 
 
 (require 'use-package)
@@ -58,10 +58,10 @@
 
 
 (use-package orderless
-	     :init
-	     (setq completion-styles '(flex basic)
-		completion-category-defaults nil
-		completion-category-overrides '((file (styles partial-completion)))))
+             :init
+             (setq completion-styles '(flex basic)
+                completion-category-defaults nil
+                completion-category-overrides '((file (styles partial-completion)))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -82,31 +82,31 @@
  '(hl-indent-scope-odd-face ((t (:background "#3c3e4a")))))
 
 (use-package which-key
-	     :ensure t
-	     :config (which-key-mode))
+             :ensure t
+             :config (which-key-mode))
 
 ;; Themes
 ;;(use-package doom-themes
-;;	     :ensure t
-;;	     :config
-;;	     (load-theme 'doom-horizon))
+;;           :ensure t
+;;           :config
+;;           (load-theme 'doom-horizon))
 
 (use-package modus-themes
   :ensure t
   :init
   (setq modus-themes-syntax '(green-strings yellow-comments)
-	modus-themes-mode-line '(accented borderless)
-	modus-themes-hl-line '(accented))
+        modus-themes-mode-line '(accented borderless)
+        modus-themes-hl-line '(accented))
   (modus-themes-load-themes)
   :config
 (load-theme 'modus-vivendi t))
 
 ;; Projectile
 (use-package projectile
-	     :ensure t
-	     :config
-	     (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
-	     (projectile-mode +1))
+             :ensure t
+             :config
+             (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
+             (projectile-mode +1))
 
 
 
@@ -114,26 +114,26 @@
 
 
 (use-package evil
-	       :init
-		(setq evil-want-integration t)
-		(setq evil-want-keybinding nil)
-		(setq evil-want-C-u-scroll t)
-		(setq evil-want-C-i-jump nil)
-		:config
-		(evil-mode 1)
-		(define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-		(define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-		;; Use visual line motions even outside of visual-line-mode buffers
-		(evil-global-set-key 'motion "j" 'evil-next-visual-line)
-		(evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-		(evil-set-initial-state 'messages-buffer-mode 'normal)
-		(evil-set-initial-state 'dashboard-mode 'normal))
+               :init
+                (setq evil-want-integration t)
+                (setq evil-want-keybinding nil)
+                (setq evil-want-C-u-scroll t)
+                (setq evil-want-C-i-jump nil)
+                :config
+                (evil-mode 1)
+                (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+                (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+                ;; Use visual line motions even outside of visual-line-mode buffers
+                (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+                (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+                (evil-set-initial-state 'messages-buffer-mode 'normal)
+                (evil-set-initial-state 'dashboard-mode 'normal))
 
 
 (use-package evil-collection
-	     :after evil
-	     :config
-	     (evil-collection-init))
+             :after evil
+             :config
+             (evil-collection-init))
 
 
 (use-package dashboard
@@ -141,7 +141,7 @@
   :init
   (progn
     (setq dashboard-items '((recents . 1)
-			    (projects . 1))))
+                            (projects . 1))))
   :config
   (dashboard-setup-startup-hook))
 
@@ -206,11 +206,11 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode)
   (setq company-minimum-prefix-length 1
-	  company-idle-delay 0.0))
+          company-idle-delay 0.0))
 
 (use-package rustic
   :config
-					;(setq rustic-lsp-client 'eglot))
+                                        ;(setq rustic-lsp-client 'eglot))
 )
 
 
@@ -220,7 +220,7 @@
   (global-tree-sitter-mode)
   (add-hook 'rustic-mode-hook #'tree-sitter-hl-mode)
   (add-hook 'c++-mode-hook 'tree-sitter-hl-mode))
-  
+
 (use-package tree-sitter-langs)
 (use-package rg)
 
@@ -306,3 +306,7 @@
 (use-package json-mode
   :ensure t)
 
+(use-package avy)
+(avy-setup-default)
+(global-set-key (kbd "C-c s r") 'avy-resume)
+(global-set-key (kbd "C-c s c") 'evil-avy-goto-char-timer)
