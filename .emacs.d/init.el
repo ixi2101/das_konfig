@@ -1,4 +1,3 @@
-
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024))
 (setq inhibit-startup-message t)
@@ -39,10 +38,10 @@
 ;;(ido-mode 1)
 ;;(ido-everywhere 1)
 
-(use-package ido-completing-read+
-  :config
-  (ido-ubiquitous-mode 1))
-(setq ido-enable-flex-matching t)
+;(use-package ido-completing-read+
+;  :config
+;  (ido-ubiquitous-mode 1))
+;(setq ido-enable-flex-matching t)
 
 (use-package no-littering)
 
@@ -72,7 +71,7 @@
    '("dc8285f7f4d86c0aebf1ea4b448842a6868553eded6f71d1de52f3dcbc960039" "ff24d14f5f7d355f47d53fd016565ed128bf3af30eb7ce8cae307ee4fe7f3fd0" "944d52450c57b7cbba08f9b3d08095eb7a5541b0ecfb3a0a9ecd4a18f3c28948" "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "2dd4951e967990396142ec54d376cced3f135810b2b69920e77103e0bcedfba9" default))
  '(helm-minibuffer-history-key "M-p")
  '(package-selected-packages
-   '(vertico helm-lsp helm lsp-ido dap-mode lsp-treemacs lsp-ui lsp-mode treemacs modus-themes json-mode vterm tide rjsx-mode prettier-js fancy-compilation fancy-compilation-mode undo-tree hl-indent-scope diff-hl doom-modeline smart-mode-line solaire mood-line haskell-mode tuareg treemacs-evil treemacs-projectile tree-sitter yasnippet magit evil-magit rg tree-sitter-langs rustic company corfu eglot telephone-line dashboard no-littering evil-collection evil ivy helm-projectile projectile doom-themes which-key use-package)))
+   '(marginalia vertico helm-lsp helm lsp-ido dap-mode lsp-treemacs lsp-ui lsp-mode treemacs modus-themes json-mode vterm tide rjsx-mode prettier-js fancy-compilation fancy-compilation-mode undo-tree hl-indent-scope diff-hl doom-modeline smart-mode-line solaire mood-line haskell-mode tuareg treemacs-evil treemacs-projectile tree-sitter yasnippet magit evil-magit rg tree-sitter-langs rustic company corfu eglot telephone-line dashboard no-littering evil-collection evil ivy helm-projectile projectile doom-themes which-key use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -145,13 +144,27 @@
   :config
   (dashboard-setup-startup-hook))
 
-(use-package helm
+;;(use-package helm
+ ;; :ensure t
+ ;;:config (helm-mode 1))
+;;(global-set-key (kbd "M-x") 'helm-M-x)
+(use-package vertico
+  :init
+  (vertico-mode)
+  :custom
+  (vertico-cycle t))
+
+(use-package savehist
+  :init
+  (savehist-mode))
+
+(use-package marginalia
+  :after vertico
   :ensure t
- :config (helm-mode 1))
-(global-set-key (kbd "M-x") 'helm-M-x)
-;;(use-package vertico
-;;  :init
-  ;;(vertico-mode))
+  :custom
+  (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+  :init
+  (marginalia-mode))
 
 ;; Telephone line
 ;;(use-package telephone-line
@@ -187,7 +200,7 @@
 (use-package lsp-ui :commands lsp-ui-mode)
 ;(use-package lsp-ido)
 ;; if you are helm user
-(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+;;(use-package helm-lsp :commands helm-lsp-workspace-symbol)
 ;; if you are ivy user
 ;(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
